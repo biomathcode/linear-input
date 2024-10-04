@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <style>
+      body {
+        background: #fafafa;
+      }
+
+      #demo {
+        display: flex;
+        min-height: 100vh;
+        min-width: 100vw;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="demo"></div>
+
+    <script type="module">
+      import { html, render } from 'lit';
+      import '../dist/src/linear-input.js';
+
+      function handleSubmit(e) {
+        e.preventDefault();
+
+        // Create a FormData object from the form
+        const formData = new FormData(e.target);
+
+        // Convert FormData to an object and log it
+        const formValues = Object.fromEntries(formData.entries());
+        console.log('Form Values:', formValues);
+      }
+
+      render(
+        html`
+          <form @submit="${handleSubmit}">
+            <linear-input
+              label="Enter your life story"
+              placeholder="Enter your life story"
+              value=""
+              name="username"
+              id="username"
+              success="true"
+            >
+              some light-dom
+            </linear-input>
+            <input value="hello" name="name" />
+            <button type="submit">Submit</button>
+          </form>
+        `,
+        document.querySelector('#demo'),
+      );
+    </script>
+  </body>
+</html>
