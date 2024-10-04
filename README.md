@@ -2,7 +2,7 @@
 
 A customizable Web Component for input fields, following open-wc recommendations, built using the Lit framework.
 
-![alt text](./linear-input.gif)
+![alt text](/linear-input.gif)
 
 
 ## Installation

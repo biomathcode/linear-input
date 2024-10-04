@@ -13,6 +13,9 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  pull-requests: write
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 # List of jobs
 jobs:
@@ -30,6 +33,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Build my library
+        run: npm run build
+      
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with: 
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
 
       - name: Build Storybook
         run: npm run storybook:build
