@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "linear-input",
   "license": "MIT",
-  "access": "public", 
+  "access": "public",
   "description": "A customizable Web Component for input fields, following open-wc recommendations, built using the Lit framework.",
   "author": {
     "name": "biomathcode",
