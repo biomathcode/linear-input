@@ -99,6 +99,18 @@ export class LinearInput extends LitElement {
 
   private _internals: ElementInternals;
 
+  @property({ type: String }) caretColor = 'black'; // Custom caret color
+
+  @property({ type: String }) borderColor = 'gray'; // Custom border color
+
+  @property({ type: String }) backgroundColor = 'white'; // Custom background color
+
+  @property({ type: String }) fontSize = '16px'; // Custom font size
+
+  @property({ type: String }) indicatorColor = '#627ef6';
+
+  @property({ type: String }) textColor = 'black';
+
   constructor() {
     super();
     this._internals = this.attachInternals();
@@ -248,6 +260,14 @@ export class LinearInput extends LitElement {
   public disabled = false;
 
   static styles = css`
+    :host {
+      --caret-color: var(--input-caret-color, #d9d9d9;);
+      --border-color: var(--input-border-color, #bbb);
+      --background-color: var(--input-background-color, white);
+      --font-size: var(--input-font-size, 16px);
+      --indicator-color: var(--input-indicator-color, #627ef6);
+      --text-color: var(--input-text-color, black);
+    }
     .input-wrapper {
       position: relative;
       width: 20rem;
@@ -262,16 +282,17 @@ export class LinearInput extends LitElement {
       height: 3.25rem;
       border-radius: 1rem;
       outline: none;
-      border: 1px solid #bbb;
+      border: 1px solid var(--border-color);
+      color: (--text-color);
 
-      font-size: 1.35rem;
+      font-size: var(--font-size);
       font-family: inherit;
       caret-color: white;
     }
     .caret {
       width: 0.35rem;
-      height: 1.85rem;
-      background-color: #d9d9d9;
+      height: 80%;
+      background-color: var(--caret-color);
       border-radius: 10rem;
       position: absolute;
       top: 50%;
@@ -295,7 +316,7 @@ export class LinearInput extends LitElement {
       width: 0.35rem;
       height: 0rem;
       border-radius: 10rem;
-      background-color: #627ef6;
+      background-color: var(--indicator-color);
       position: absolute;
       bottom: 0;
       left: 0;
@@ -414,7 +435,7 @@ export class LinearInput extends LitElement {
   updateInputWidth(inputText: string) {
     const hiddenDiv = document.createElement('div');
     hiddenDiv.style.cssText =
-      'position: absolute; visibility: hidden; white-space: pre; font-size: 1.35rem;';
+      'position: absolute; visibility: hidden; white-space: pre; font-size: inherit;';
     hiddenDiv.textContent = inputText;
     document.body.appendChild(hiddenDiv);
     this.inputWidth = hiddenDiv.offsetWidth; // Extra padding
@@ -478,6 +499,14 @@ export class LinearInput extends LitElement {
     return html`
       <div class="input-wrapper">
         <input
+          style="
+        --input-caret-color: ${this.caretColor};
+        --input-border-color: ${this.borderColor};
+        --input-background-color: ${this.backgroundColor};
+        --input-font-size: ${this.fontSize};
+        --input-indicator-color: ${this.indicatorColor};
+        --input-text-color:${this.textColor};
+      "
           id="linear-input"
           pattern="${ifDefined(this.pattern || undefined)}"
           class="linear-input"
