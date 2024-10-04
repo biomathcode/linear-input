@@ -1,12 +1,30 @@
 {
+  "version": "0.0.1",
   "name": "linear-input",
-  "description": "Webcomponent linear-input following open-wc recommendations",
   "license": "MIT",
-  "author": "linear-input",
-  "version": "0.0.0",
+  "description": "A customizable Web Component for input fields, following open-wc recommendations, built using the Lit framework.",
+  "author": {
+    "name": "biomathcode",
+    "email": "sharma.pratik2016@gmail.com",
+    "url": "https://github.com/biomathcode"
+  },
+  "homepage": "https://biomathcode.github.io/linear-input",
+  "bugs": {
+    "url": "https://github.com/biomathcode/linear-input/issues"
+  },
+  "keywords": [
+    "web-component",
+    "input",
+    "form",
+    "lit",
+    "custom-element",
+    "open-wc",
+    "typescript"
+  ],
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
+  "repository": {},
   "exports": {
     ".": "./dist/src/index.js",
     "./linear-input.js": "./dist/src/linear-input.js"
@@ -22,7 +40,9 @@
     "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "storybook": "tsc && npm run analyze -- --exclude dist && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"storybook dev -p 8080\"",
-    "storybook:build": "tsc && npm run analyze -- --exclude dist && storybook build"
+    "storybook:build": "tsc && npm run analyze -- --exclude dist && storybook build",
+    "predeploy": "tsc && npm run analyze -- --exclude dist && storybook build",
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "dependencies": {
     "lit": "^3.1.4"
@@ -45,6 +65,7 @@
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "gh-pages": "^6.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",

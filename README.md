@@ -1,6 +1,9 @@
 # \<linear-input>
 
-This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+A customizable Web Component for input fields, following open-wc recommendations, built using the Lit framework.
+
+![alt text](./linear-input.gif)
+
 
 ## Installation
 
