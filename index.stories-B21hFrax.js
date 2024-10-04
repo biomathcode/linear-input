@@ -158,6 +158,12 @@ const icons = {
 class LinearInput extends h {
     constructor() {
         super();
+        this.caretColor = 'black'; // Custom caret color
+        this.borderColor = 'gray'; // Custom border color
+        this.backgroundColor = 'white'; // Custom background color
+        this.fontSize = '16px'; // Custom font size
+        this.indicatorColor = '#627ef6';
+        this.textColor = 'black';
         /**
          * @private
          * This binding allows for invalid value for `type` to still be reflected to the DOM
@@ -292,7 +298,7 @@ class LinearInput extends h {
     updateInputWidth(inputText) {
         const hiddenDiv = document.createElement('div');
         hiddenDiv.style.cssText =
-            'position: absolute; visibility: hidden; white-space: pre; font-size: 1.35rem;';
+            'position: absolute; visibility: hidden; white-space: pre; font-size: inherit;';
         hiddenDiv.textContent = inputText;
         document.body.appendChild(hiddenDiv);
         this.inputWidth = hiddenDiv.offsetWidth; // Extra padding
@@ -341,6 +347,14 @@ class LinearInput extends h {
         return ke `
       <div class="input-wrapper">
         <input
+          style="
+        --input-caret-color: ${this.caretColor};
+        --input-border-color: ${this.borderColor};
+        --input-background-color: ${this.backgroundColor};
+        --input-font-size: ${this.fontSize};
+        --input-indicator-color: ${this.indicatorColor};
+        --input-text-color:${this.textColor};
+      "
           id="linear-input"
           pattern="${to(this.pattern || undefined)}"
           class="linear-input"
@@ -380,6 +394,14 @@ class LinearInput extends h {
 // }
 LinearInput.formAssociated = true;
 LinearInput.styles = i$1 `
+    :host {
+      --caret-color: var(--input-caret-color, #d9d9d9;);
+      --border-color: var(--input-border-color, #bbb);
+      --background-color: var(--input-background-color, white);
+      --font-size: var(--input-font-size, 16px);
+      --indicator-color: var(--input-indicator-color, #627ef6);
+      --text-color: var(--input-text-color, black);
+    }
     .input-wrapper {
       position: relative;
       width: 20rem;
@@ -394,16 +416,17 @@ LinearInput.styles = i$1 `
       height: 3.25rem;
       border-radius: 1rem;
       outline: none;
-      border: 1px solid #bbb;
+      border: 1px solid var(--border-color);
+      color: (--text-color);
 
-      font-size: 1.35rem;
+      font-size: var(--font-size);
       font-family: inherit;
       caret-color: white;
     }
     .caret {
       width: 0.35rem;
-      height: 1.85rem;
-      background-color: #d9d9d9;
+      height: 80%;
+      background-color: var(--caret-color);
       border-radius: 10rem;
       position: absolute;
       top: 50%;
@@ -427,7 +450,7 @@ LinearInput.styles = i$1 `
       width: 0.35rem;
       height: 0rem;
       border-radius: 10rem;
-      background-color: #627ef6;
+      background-color: var(--indicator-color);
       position: absolute;
       bottom: 0;
       left: 0;
@@ -488,6 +511,24 @@ LinearInput.styles = i$1 `
       }
     }
   `;
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "caretColor", void 0);
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "borderColor", void 0);
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "backgroundColor", void 0);
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "fontSize", void 0);
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "indicatorColor", void 0);
+__decorate([
+    n({ type: String })
+], LinearInput.prototype, "textColor", void 0);
 __decorate([
     n({ attribute: 'type', reflect: true })
 ], LinearInput.prototype, "_type", void 0);
@@ -573,28 +614,105 @@ var index_stories = {
     title: 'LinearInput',
     component: 'linear-input',
     argTypes: {
-        header: { control: 'text' },
-        counter: { control: 'number' },
+        label: { control: 'text' },
+        placeholder: { control: 'text' },
+        value: { control: 'text' },
+        name: { control: 'text' },
+        id: { control: 'text' },
+        success: { control: 'boolean' },
+        disabled: { control: 'boolean' },
+        required: { control: 'boolean' },
+        readonly: { control: 'boolean' },
+        minlength: { control: 'number' },
+        maxlength: { control: 'number' },
+        pattern: { control: 'text' },
+        invalid: { control: 'boolean' },
+        valid: { control: 'boolean' },
+        autocomplete: {
+            control: {
+                type: 'select',
+                options: ['on', 'off', 'name', 'email', 'username', 'new-password'],
+            },
+        },
+        type: {
+            control: {
+                type: 'select',
+                options: ['text', 'url', 'tel', 'email', 'password'],
+            },
+        },
         textColor: { control: 'color' },
+        caretColor: { control: 'color' },
+        backgroundColor: { control: 'color' },
+        borderColor: { control: 'color' },
+        indicatorColor: { control: 'color' },
+        slot: { control: 'text' },
     },
 };
-const Template = ({ header = 'Hello world', counter = 5, textColor, slot, }) => ke `
+const Template = ({ label, placeholder, value, name, id, success, disabled, required, readonly, minlength, maxlength, pattern, invalid, valid, autocomplete, type, slot, caretColor, textColor, borderColor, backgroundColor, fontSize, indicatorColor, }) => ke `
   <linear-input
-    style="--linear-input-text-color: ${textColor || 'black'}"
-    .header=${header}
-    .counter=${counter}
+    label=${to(label || '')}
+    placeholder=${to(placeholder)}
+    value=${to(value)}
+    name=${to(name)}
+    id=${to(id)}
+    ?success=${success}
+    ?disabled=${disabled}
+    ?required=${required}
+    ?readonly=${readonly}
+    minlength=${to(minlength)}
+    maxlength=${to(maxlength)}
+    pattern=${to(pattern)}
+    ?invalid=${invalid}
+    ?valid=${valid}
+    autocomplete=${to(autocomplete)}
+    type=${to(type)}
+    style="
+
+     --input-caret-color: ${caretColor};
+        --input-border-color: ${borderColor};
+        --input-background-color: ${backgroundColor};
+        --input-font-size: ${fontSize};
+        --input-indicator-color: ${indicatorColor};
+        --input-text-color:${textColor};
+    
+    "
   >
     ${slot}
   </linear-input>
 `;
 const Regular = Template.bind({});
-const CustomHeader = Template.bind({});
-CustomHeader.args = {
-    header: 'My header',
+Regular.args = {
+    label: 'Enter your life story',
+    placeholder: 'Enter your life story',
+    value: '',
+    name: 'username',
+    id: 'username',
+    success: false,
+    disabled: false,
+    required: false,
+    readonly: false,
+    minlength: 0,
+    maxlength: 100,
+    pattern: '',
+    invalid: false,
+    valid: false,
+    autocomplete: 'off',
+    type: 'text',
+    textColor: 'black',
+    caretColor: 'black', // Custom caret color
+    borderColor: 'gray', // Custom border color
+    backgroundColor: 'white', // Custom background color
+    fontSize: '16px', // Custom font size
 };
-const CustomCounter = Template.bind({});
-CustomCounter.args = {
-    counter: 123456,
+const CustomSuccess = Template.bind({});
+CustomSuccess.args = {
+    ...Regular.args,
+    success: true,
+};
+const DisabledInput = Template.bind({});
+DisabledInput.args = {
+    ...Regular.args,
+    disabled: true,
 };
 const SlottedContent = Template.bind({});
 SlottedContent.args = {
@@ -604,6 +722,6 @@ SlottedContent.argTypes = {
     slot: { table: { disable: true } },
 };
 
-const __namedExportsOrder = ['Regular', 'CustomHeader', 'CustomCounter', 'SlottedContent'];
+const __namedExportsOrder = ['Regular', 'CustomSuccess', 'DisabledInput', 'SlottedContent'];
 
-export { CustomCounter, CustomHeader, Regular, SlottedContent, __namedExportsOrder, index_stories as default };
+export { CustomSuccess, DisabledInput, Regular, SlottedContent, __namedExportsOrder, index_stories as default };
